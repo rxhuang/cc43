@@ -27,7 +27,7 @@ public class DataProducer {
         BufferedReader reader = new BufferedReader(new FileReader(this.traceFileName));
 
         String strCurrentLine;
-        while ((strCurrentLine = objReader.readLine()) != null) {
+        while ((strCurrentLine = reader.readLine()) != null) {
             System.out.println(strCurrentLine);
         }
         
@@ -39,10 +39,10 @@ public class DataProducer {
         ||lineJson.getString("type").equals("ENTERING_BLOCK")
         ||lineJson.getString("type").equals("RIDE_REQUEST")
         ||lineJson.getString("type").equals("RIDE_COMPLETE")){
-            this.producer.send("events", strCurrentLine);
+            this.producer.send(new ProducerRecord<String, String>("events", strCurrentLine));
         }
 
-        br.close();
+        reader.close();
     	producer.close();
     }
 
